@@ -6,14 +6,29 @@ import styles from "./App.module.css";
 
 import "./Global.css";
 
+/* Elementos necessários para o projeto
+author: {avatar_url:"", name: "", role:""}
+publishedAt: Date
+content: String
+*/
 
+const post = [
+  {
+    id: 1,
+    author: {
+      avatarUrl: "https://github.com/felipe-ago.png",
+      name: "Felipe Oliveira",
+      role: "Desenvolvedor Front-End",
+    },
+  },
+];
 export function App() {
   return (
     <div>
       <Header />
 
       <div className={styles.wrapper}>
-        <Sidebar/>
+        <Sidebar />
         <main>
           <Post
             author="Felipe Oliveira"

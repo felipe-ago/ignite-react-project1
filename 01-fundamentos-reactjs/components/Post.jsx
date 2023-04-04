@@ -25,8 +25,8 @@ export function Post({ author, publishedAt, content }) {
   });
 
   function handleCreateNewComment() {
-    event.defaultPrevented();
-    
+    event.preventDefault();
+
     setComments([])
  
     

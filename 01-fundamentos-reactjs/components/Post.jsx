@@ -1,45 +1,71 @@
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 import styles from "./Post.module.css";
+import { useState } from "react";
 
+export function Post({ author, publishedAt, content }) {
+  const [comments, setComments] = useState([
+    1,
+    2,
+  ]);
 
-export function Post() {
+  const publishedDateFormated = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
+  function handleCreateNewComment() {
+    event.defaultPrevented();
+    
+    setComments([])
+ 
+    
+  }
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/felipe-ago.png"/>
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Felipe Oliveira</strong>
-            <span>Front-End Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="23 de Março às 15:48h" dateTime="2023-03-23">
-          Publicado a 1h
+        <time
+          title={publishedDateFormated}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
-
-        <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
-        </p>
-
-        <p>
-          👉 <a href="">jane.design/doctorcare</a>
-        </p>
-
-        <p>
-          <a href="">#novoprojeto </a>
-          <a href="">#nlw </a>
-          <a href="">#rocketseat </a>
-        </p>
+        {content.map((line) => {
+          if (line.type === "paragraph") {
+            return <p>{line.content}</p>;
+          } else if (line.type === "link") {
+            return (
+              <p>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
       </div>
 
-      <form className={styles.comentForm}>
+      <form onSubmit={handleCreateNewComment()} className={styles.comentForm}>
         <strong>Deixe seu Feedback</strong>
         <textarea placeholder="Deixe um comentário..." />
         <footer>
@@ -47,9 +73,9 @@ export function Post() {
         </footer>
       </form>
       <div className={styles.coometList}>
-        <Comment/>
-        <Comment/>
-        <Comment/>
+        {comments.map((comment) => {
+          return <Comment />;
+        })}
       </div>
     </article>
   );

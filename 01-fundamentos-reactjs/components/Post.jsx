@@ -6,10 +6,7 @@ import styles from "./Post.module.css";
 import { useState } from "react";
 
 export function Post({ author, publishedAt, content }) {
-  const [comments, setComments] = useState([
-    1,
-    2,
-  ]);
+  const [comments, setComments] = useState([1, 2]);
 
   const publishedDateFormated = format(
     publishedAt,
@@ -27,9 +24,7 @@ export function Post({ author, publishedAt, content }) {
   function handleCreateNewComment() {
     event.preventDefault();
 
-    setComments([])
- 
-    
+    setComments([1, 2, 3]);
   }
 
   return (
